@@ -37,6 +37,8 @@
 import random
 
 is_game_over = False
+continue_adding_card = False
+draw_response = ""
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 user_cards = []
 computer_cards = []
@@ -71,18 +73,33 @@ for i in range(2):
 #Look up the sum() function to help you do this.
 
 #Hint 9: Call calculate_score(). If the computer or the user has a blackjack (0) or if the user's score is over 21, then the game ends.
-user_score = calculate_score(user_cards)
-computer_score = calculate_score(computer_cards)
-
-print(f"Your cards: {user_cards}, current score = {user_score}")
-print(f"Computer's first card: {computer_cards[0]}")
-
-if user_score == 0 or computer_score == 0:
-  is_game_over = True
-elif user_score > 21:
-  is_game_over = True
+def check_score():
+  """Checks the score iteratively."""
   
+  user_score = calculate_score(user_cards)
+  computer_score = calculate_score(computer_cards)
+
+  print(f"\nYour cards: {user_cards}, current score = {user_score}")
+  print(f"\nComputer's first card: {computer_cards[0]}")
+
+  if user_score == 0 or computer_score == 0:
+    is_game_over = True
+  elif user_score > 21:
+    is_game_over = True
+    print(f"\nYour final hand: {user_cards}, final score = {user_score}")
+    print(f"\nComputer's final hand: {computer_cards}, final score = {computer_score}")
+    print("\nYou went over. You loose!")
+    return
+  draw_response = input("\nDo you want to draw another card? 'y' or 'n': ")
+  if draw_response == "y":
+    user_cards.append(deal_card())
+    check_score()
+    continue_adding_card = True
+  if draw_response == "n":
+    is_game_over = True
+check_score()
 #Hint 10: If the game has not ended, ask the user if they want to draw another card. If yes, then use the deal_card() function to add another card to the user_cards List. If no, then the game has ended.
+
 
 #Hint 11: The score will need to be rechecked with every new card drawn and the checks in Hint 9 need to be repeated until the game ends.
 
