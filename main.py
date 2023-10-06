@@ -84,6 +84,8 @@ def check_score():
 
   if user_score == 0 or computer_score == 0:
     is_game_over = True
+    print("\nGot a black jack. Game over!")
+    return
   elif user_score > 21:
     is_game_over = True
     print(f"\nYour final hand: {user_cards}, final score = {user_score}")
@@ -97,6 +99,19 @@ def check_score():
     continue_adding_card = True
   if draw_response == "n":
     is_game_over = True
+    while computer_score != 0 and computer_score < 17:
+      computer_cards.append(deal_card())
+      computer_score = calculate_score(computer_cards)
+    print(f"\nComputer's final hand: {computer_cards}, final score = {computer_score}")
+    if user_score == computer_score:
+      print("\nSame score. Game draw!")
+      return
+    elif user_score > computer_score or computer_score > 21:
+      print("\nYou win!")
+      return
+    else:
+      print("\nComputer wins!")
+      return
 check_score()
 #Hint 10: If the game has not ended, ask the user if they want to draw another card. If yes, then use the deal_card() function to add another card to the user_cards List. If no, then the game has ended.
 
